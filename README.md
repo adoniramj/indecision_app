@@ -1,6 +1,6 @@
 # React indecision app
 
-This is React project is to learn the basic concencepts of React.
+This project is to learn the basic concepts of React.
 
 ## Prerequisites
 The following must be installed in your OS:

@@ -31,25 +31,38 @@ var user = {
 let count = 0
 
 const addOne = () => {
-    console.log('addOne')
+    count++
+    console.log('addOne', count)
+    renderCounterApp()
 }
 
 const minusOne = () => {
+    count--
     console.log('minusOne')
+    renderCounterApp()
 }
 
 const reset = () => {
+    count = 0
     console.log('reset')
+    renderCounterApp()
 }
-var templateTwo = (
-    <div>
-        <h1>Count: {count}</h1>
-        <button onClick={addOne} className="button">+1</button>
-        <button onClick={minusOne} className="button">-1</button>
-        <button onClick={reset} className="button">Reset</button>
-    </div>
-)
 
-console.log(templateTwo)
+const renderCounterApp = () => {
+    const templateTwo = (
+        <div>
+            <h1>Count: {count}</h1>
+            <button onClick={addOne} className="button">+1</button>
+            <button onClick={minusOne} className="button">-1</button>
+            <button onClick={reset} className="button">Reset</button>
+        </div>
+    )
+    ReactDOM.render(templateTwo,appRoot)
+}
+
+
+
+//console.log(templateTwo)
 var appRoot = document.getElementById('app')
-ReactDOM.render(templateTwo,appRoot)
+
+renderCounterApp()

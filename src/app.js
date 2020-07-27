@@ -1,63 +1,87 @@
-console.log('App.js is running! Is it?')
-
-var app = {
-    title : 'Indecision App',
-    subtitle : 'Put your life in the hands of a computer!',
-    options : []
-}
-
-const onFormSubmit = (e) => {
-    e.preventDefault()
-    const option = e.target.elements.option.value
-    if(option){
-        app.options.push(option)
-        console.log(app.options)
-        e.target.elements.option.value = ''
-        renderingApp()
-    }
-}
-
-const onRemoveAll = (e)=> {
-    console.log(e)
-    app.options = []
-    renderingApp()
-}
-
-const newResult = () => {
-    return app.options.map((option, index) => {
-        return <li key={index}>{option}</li>
-    })
-}
-
-const onMakeDecision = () => {
-    const optionIndex  = Math.floor(Math.random()*app.options.length)
-    const option = app.options[optionIndex]
-    alert(option)
-
-}
-
-const renderingApp = () => {
-    const template = (
-        <div>
-            <h1>{app.title}</h1>
-            {app.subtitle && <p>{app.subtitle}</p>}
-            <p>{app.options.length > 0 ? 'Here are your options' : 'No options'}</p>
-            <button onClick={onMakeDecision} disabled={app.options.length == 0 ? true : false}>What should I do?</button>
-            <button onClick={onRemoveAll}>Remove options</button>
-            <ol>
-                {newResult()}
-            </ol>
-            <form onSubmit={onFormSubmit}>
-                <input type='text' name='option'/>
-                <button>Add option</button>
-            </form>
-        </div>
+class IndecisionApp extends React.Component{
+  render(){
+    const title = 'Indecision App'
+    const subtitle = 'Put your life in the hands of a computers'
+    const options = ['One', 'Two', 'Four']
+    return(
+      <div>
+        <Header title={title} subtitle={subtitle}/>
+        <Action />
+        <Options options={options} what='Say what'/>
+        <AddOptions />
+      </div>
     )
-    ReactDOM.render(template,appRoot)
+  }
 }
 
+class Header extends React.Component { // React.Component is a class. Uppercase is enforced.
+  render() { // render method does not take arguments. Returns jsx
+    return (
+      <div>
+        <h1>{this.props.title}</h1>
+        <h2>{this.props.subtitle}</h2>
+      </div>
+    )
+  }
+}
+
+class Action extends React.Component {
+  handlePick(){
+    alert('Handle picked')
+  }
+  render(){
+    return (
+      <div>
+        <button onClick={this.handlePick}>What should I do?</button>
+      </div>
+    )
+  }
+}
+
+class Options extends React.Component {
+  handleRemoveAll(){
+    alert('Remove all?')
+  }
+  render() {
+    return ( 
+      <div>
+        <button onClick={this.handleRemoveAll}>Remove all options</button>
+        {this.props.options.map((option,index) => <Option  key={index} optionText={option}/>)}
+      </div>
+    )
+  }
+}
+
+class Option extends React.Component {
+  render(){
+    return (
+      <p>Option: {this.props.optionText}</p>
+    )
+  }
+}
+
+class AddOptions extends React.Component {
+  handleAddOption(e){
+    e.preventDefault()
+    const option = e.target.elements.option.value.trim()
+    if(option){
+      alert(option)
+    }
+    e.target.elements.option.value = ''
+
+  }
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleAddOption}>
+          <input type='text' name='option' />
+          <button>Submit option</button>
+        </form>
+      </div>
+    )
+  }
+}
 
 const appRoot = document.getElementById('app')
 
-
-renderingApp()
+ReactDOM.render(<IndecisionApp />, appRoot) 

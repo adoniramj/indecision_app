@@ -1,4 +1,4 @@
-class IndecisionApp extends React.Component{
+ class IndecisionApp extends React.Component{
   render(){
     const title = 'Indecision App'
     const subtitle = 'Put your life in the hands of a computers'
@@ -7,7 +7,7 @@ class IndecisionApp extends React.Component{
       <div>
         <Header title={title} subtitle={subtitle}/>
         <Action />
-        <Options options={options} what='Say what'/>
+        <Options options={options}/>
         <AddOptions />
       </div>
     )
@@ -39,9 +39,14 @@ class Action extends React.Component {
 }
 
 class Options extends React.Component {
-  handleRemoveAll(){
-    alert('Remove all?')
+  constructor(props){
+    super(props)
+    // this.handleRemoveAll = this.handleRemoveAll.bind(this)
   }
+  handleRemoveAll(){
+    console.log(this.props)
+  }
+
   render() {
     return ( 
       <div>

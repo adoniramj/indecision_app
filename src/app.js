@@ -1,21 +1,63 @@
  class IndecisionApp extends React.Component{
+  constructor(props){
+    super(props)
+    this.handleDeleteOptions = this.handleDeleteOptions.bind(this)
+    this.handlePick = this.handlePick.bind(this)
+    this.handleAddOption = this.handleAddOption.bind(this)
+    this.state = {
+      options: []
+    }
+  }
+
+  handleDeleteOptions () {
+    this.setState(() => {
+      return {
+        options: []
+      }
+    })
+  }
+
+  handlePick () {
+    const pick = Math.floor(Math.random() * this.state.options.length)
+    alert(this.state.options[pick])
+  }
+
+  handleAddOption (option) {
+    if(!option){
+      return 'Enter a valid item'
+    } else if (this.state.options.indexOf(option) > -1) {
+      return 'This option is already in the system'
+    } 
+    this.setState((prevState) => {
+      return {
+        options : prevState.options.concat(option)
+      }
+    })
+  }
+
   render(){
     const title = 'Indecision App'
     const subtitle = 'Put your life in the hands of a computers'
-    const options = ['One', 'Two', 'Four']
     return(
       <div>
         <Header title={title} subtitle={subtitle}/>
-        <Action />
-        <Options options={options}/>
-        <AddOptions />
+        <Action 
+          hasOptions={this.state.options.length > 0 ? true : false}
+          handlePick={this.handlePick}
+        />
+        <Options 
+          options={this.state.options}
+          handleDeleteOptions={this.handleDeleteOptions}
+          hasOptions={this.state.options.length > 0 ? true : false}
+        />
+        <AddOptions handleAddOption={this.handleAddOption} />
       </div>
     )
   }
 }
 
-class Header extends React.Component { // React.Component is a class. Uppercase is enforced.
-  render() { // render method does not take arguments. Returns jsx
+class Header extends React.Component {
+  render() { 
     return (
       <div>
         <h1>{this.props.title}</h1>
@@ -26,31 +68,29 @@ class Header extends React.Component { // React.Component is a class. Uppercase 
 }
 
 class Action extends React.Component {
-  handlePick(){
-    alert('Handle picked')
-  }
   render(){
     return (
       <div>
-        <button onClick={this.handlePick}>What should I do?</button>
+        <button 
+          disabled={!this.props.hasOptions}
+          onClick={this.props.handlePick}>
+          What should I do?
+        </button>
       </div>
     )
   }
 }
 
 class Options extends React.Component {
-  constructor(props){
-    super(props)
-    // this.handleRemoveAll = this.handleRemoveAll.bind(this)
-  }
-  handleRemoveAll(){
-    console.log(this.props)
-  }
-
   render() {
     return ( 
       <div>
-        <button onClick={this.handleRemoveAll}>Remove all options</button>
+        <button 
+          onClick={this.props.handleDeleteOptions}
+          disabled={!this.props.hasOptions}
+        >
+          Remove all options
+        </button>
         {this.props.options.map((option,index) => <Option  key={index} optionText={option}/>)}
       </div>
     )
@@ -66,12 +106,22 @@ class Option extends React.Component {
 }
 
 class AddOptions extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleAddOption = this.handleAddOption.bind(this)
+    this.state = {
+      error : undefined
+    }
+  }
   handleAddOption(e){
     e.preventDefault()
     const option = e.target.elements.option.value.trim()
-    if(option){
-      alert(option)
-    }
+    const error = this.props.handleAddOption(option) //return a string or undefine
+
+    this.setState(()=> {
+      return { error }
+    })
+
     e.target.elements.option.value = ''
 
   }
@@ -82,6 +132,7 @@ class AddOptions extends React.Component {
           <input type='text' name='option' />
           <button>Submit option</button>
         </form>
+        {this.state.error && <p>{this.state.error}</p>}
       </div>
     )
   }

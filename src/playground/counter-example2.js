@@ -3,7 +3,7 @@ class Counter extends React.Component {
         super(props)
         this.handleAddOne = this.handleAddOne.bind(this)
         this.handleMinusOne = this.handleMinusOne.bind(this)
-        this.handleReset = this.handleReset.bind(this)
+        // this.handleReset = this.handleReset.bind(this)
         this.state = {
             count : 0
         }

@@ -56,53 +56,45 @@
   }
 }
 
-class Header extends React.Component {
-  render() { 
+const Header = (props) => {
     return (
       <div>
-        <h1>{this.props.title}</h1>
-        <h2>{this.props.subtitle}</h2>
+        <h1>{props.title}</h1>
+        <h2>{props.subtitle}</h2>
       </div>
     )
-  }
 }
 
-class Action extends React.Component {
-  render(){
+const Action = (props) => {
     return (
       <div>
         <button 
-          disabled={!this.props.hasOptions}
-          onClick={this.props.handlePick}>
+          disabled={!props.hasOptions}
+          onClick={props.handlePick}>
           What should I do?
         </button>
       </div>
     )
-  }
 }
 
-class Options extends React.Component {
-  render() {
+const Options = (props) => {
     return ( 
       <div>
         <button 
-          onClick={this.props.handleDeleteOptions}
-          disabled={!this.props.hasOptions}
+          onClick={props.handleDeleteOptions}
+          disabled={!props.hasOptions}
         >
           Remove all options
         </button>
-        {this.props.options.map((option,index) => <Option  key={index} optionText={option}/>)}
+        {props.options.map((option,index) => <Option  key={index} optionText={option}/>)}
       </div>
     )
-  }
 }
 
-class Option extends React.Component {
-  render(){
-    return (
-      <p>Option: {this.props.optionText}</p>
-    )
-  }
+const Option = (props) => {
+  return (
+    <p>Option: {props.optionText}</p>
+  )
 }
 
 class AddOptions extends React.Component {
@@ -140,4 +132,4 @@ class AddOptions extends React.Component {
 
 const appRoot = document.getElementById('app')
 
-ReactDOM.render(<IndecisionApp />, appRoot) 
+ReactDOM.render(<IndecisionApp/>, appRoot) 

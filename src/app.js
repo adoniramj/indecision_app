@@ -9,6 +9,26 @@
       options: props.options
     }
   }
+  
+  static getDerivedStateFromProps(props){
+
+  }
+
+  componentDidMount(){
+    try {
+      const options = JSON.parse(localStorage.getItem('options'))
+      this.setState(() => ({ options }))
+    } catch (error) {
+      //do nothing
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(prevState.options.length !== this.state.options.length){
+      const json = JSON.stringify(this.state.options)
+      localStorage.setItem('options', json)
+    }
+  }
 
   handleDeleteOptions() {
     this.setState(() => ({options: []}))
@@ -103,14 +123,20 @@ const Options = (props) => {
     )
 }
 
-const Option = (props) => {
-  console.log(PaymentResponse)
-  return (
-    <div>
-      Option: {props.optionText}
-      <button onClick={() => props.handleDeleteOption(props.optionText)}>Remove option</button>
+class Option extends React.Component{
+
+  componentWillUnmount(){
+    
+  }
+
+  render(){
+    return(
+      <div>
+      Option: {this.props.optionText}
+      <button onClick={() => this.props.handleDeleteOption(this.props.optionText)}>Remove option</button>
     </div>
-  )
+    )
+  }
 }
 
 class AddOptions extends React.Component {
@@ -122,7 +148,12 @@ class AddOptions extends React.Component {
     }
     
   }
-
+  componentDidMount(){
+   
+  }
+  componentDidUpdate(){
+    
+  }
 
   handleAddOption(e){
     e.preventDefault()
@@ -147,4 +178,4 @@ class AddOptions extends React.Component {
 
 const appRoot = document.getElementById('app')
 
-ReactDOM.render(<IndecisionApp options={['One', 'Two']}/>, appRoot) 
+ReactDOM.render(<IndecisionApp options={[]}/>, appRoot) 

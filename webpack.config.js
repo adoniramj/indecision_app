@@ -7,14 +7,23 @@ module.exports = {
         filename : 'bundle.js'
     },
     module: {
-        rules : [{
-            loader : 'babel-loader',
+        rules : [
+        {
             test : /\.js$/,
+            loader : 'babel-loader',
             exclude : /node_modules/,
             options : {
                 presets: ["env", "react"],
                 plugins : ["transform-class-properties"]
             }
+        },
+        {
+            test :/.\css$/,
+            use : [
+                "style-loader",
+                "css-loader"
+            ],
+            exclude : /node_modules/
         }]
     },
     devtool : 'cheap-module-eval-source-map',

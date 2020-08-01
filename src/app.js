@@ -6,3 +6,4 @@ import { IndecisionApp } from './components/IndecisionApp'
 const appRoot = document.getElementById('app')
 
 ReactDOM.render(<IndecisionApp options={[]}/>, appRoot) 
+

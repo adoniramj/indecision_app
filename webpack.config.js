@@ -1,7 +1,6 @@
 const path = require('path')
 
 module.exports = {
-    mode : 'none',
     entry: './src/app.js',
     output: {
         path : path.join(__dirname,'public'),
@@ -19,13 +18,14 @@ module.exports = {
             }
         },
         {
-            test :/.\css$/,
+            test :/\.s?css$/,
             use : [
                 "style-loader",
-                "css-loader"
-            ],
-            exclude : /node_modules/
-        }]
+                "css-loader",
+                "sass-loader"
+            ]
+        }
+    ]
     },
     devtool : 'cheap-module-eval-source-map',
     devServer : {

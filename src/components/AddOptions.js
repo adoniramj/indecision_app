@@ -16,11 +16,12 @@ handleAddOption = (e) => {
 render() {
     return (
     <div>
-        <form onSubmit={this.handleAddOption}>
-        <input type='text' name='option' />
-        <button>Submit option</button>
+        {this.state.error && <p className='add-option-error'>{this.state.error}</p>}
+        <form className='add-option' onSubmit={this.handleAddOption}>
+            <input className='add-option__input' type='text' name='option' />
+            <button className='button'>Submit option</button>
         </form>
-        {this.state.error && <p>{this.state.error}</p>}
+       
     </div>
     )
 }
